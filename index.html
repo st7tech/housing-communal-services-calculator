@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Калькулятор ЖКУ</title>
+    <link rel="shortcut icon" href="./img/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="./style/style.css" />
+    <link rel="stylesheet" href="./style/normalize.css" />
+  </head>
+  <body>
+    <header class="header">
+      <div class="container header__container flex">
+        <img class="header__logo" src="./img/logo.png" />
+      </div>
+    </header>
+    <div class="container">
+      <main class="main">
+        <h1 class="main-title">Калькулятор стоимости платы граждан</h1>
+        <button class="btn btn-reset period-btn">Инструкция</button>
+
+        <section class="period">
+          <p>Период</p>
+          <select name="year" required>
+            <option value="Год" selected disabled>Выберите год</option>
+            <option value="2023">2023</option>
+            <option value="2024">2024</option>
+            <option value="2025">2025</option>
+          </select>
+          <select name="month" required>
+            <option value="Месяц" selected disabled>Выберите месяц</option>
+            <option value="1">Январь</option>
+            <option value="2">Февраль</option>
+            <option value="3">Март</option>
+            <option value="4">Апрель</option>
+            <option value="5">Май</option>
+            <option value="6">Июнь</option>
+            <option value="7">Июль</option>
+            <option value="8">Август</option>
+            <option value="9">Сентябрь</option>
+            <option value="10">Октябрь</option>
+            <option value="11">Ноябрь</option>
+            <option value="12">Декабрь</option>
+          </select>
+          <p>Базовый Период</p>
+          <input type="text" name="basic-period" disabled />
+        </section>
+
+        <section class="type-home">
+          <p>Тип дома</p>
+          <input type="radio" name="home" id="apartment-building" /><label
+            for="apartment-building"
+            >Многоквартирный дом</label
+          >
+          <input type="radio" name="home" id="dacha" /><label for="dacha"
+            >Жилой дом / Дача</label
+          >
+          <input type="radio" name="home" id="dormitory" /><label
+            for="dormitory"
+            >Общежитие</label
+          >
+        </section>
+
+        <section class="residents">
+          <p>Количество проживающих (зарегистрированных)</p>
+          <input type="number" name="residents" id="resident" min="1" />
+        </section>
+
+        <section class="area-room">
+          <p>Площадь жилого помещения (квартиры) в кв. м.</p>
+          <input
+            type="number"
+            name="area-room"
+            id="area"
+            step="0.1"
+            min="0.1"
+          />
+        </section>
+
+        <section class="cold-water">
+          <details>
+            <summary>Холодное водоснабжение</summary>
+            <p>Метод расчета</p>
+            <input
+              type="radio"
+              name="cold-water"
+              id="cold-water-metering"
+            /><label for="cold">Прибор учета</label>
+            <input
+              type="radio"
+              name="cold-water"
+              id="cold-water-standard"
+            /><label for="cold">Норматив</label>
+            <p>Тариф</p>
+            <select name="tarif" id="">
+              <option value="Тариф" selected disabled>Выберите Тариф</option>
+              <option value="standart">43.26 - ООО "Водоканал ЮЖНЫЙ"</option>
+            </select>
+            <p>Расход</p>
+            <input type="number" step="0.1" />
+            <p>Тариф в текущем периоде: 43.26 руб./м</p>
+            <p>Тариф в базовом периоде: 43.26 руб./м</p>
+          </details>
+        </section>
+
+        <section class="water-disposal">
+          <details>
+            <summary>Водоотведение</summary>
+            <p>Метод расчета</p>
+            <input
+              type="radio"
+              name="cold-water"
+              id="water-disposal-avto"
+            /><label for="cold">Автоматически</label>
+            <input
+              type="radio"
+              name="cold-water"
+              id="water-disposal-manually"
+            /><label for="cold">Вручную</label>
+            <p>Тариф</p>
+            <select name="tarif" id="">
+              <option value="Тариф" selected disabled>Выберите Тариф</option>
+              <option value="standart">43.26 - ООО "Водоканал ЮЖНЫЙ"</option>
+            </select>
+            <p>Расход</p>
+            <input type="number" step="0.1" />
+            <p>Тариф в текущем периоде: 43.26 руб./м</p>
+            <p>Тариф в базовом периоде: 43.26 руб./м</p>
+          </details>
+        </section>
+
+        <section class="hot-water">
+          <details>
+            <summary>Горячее водоснабжение</summary>
+            <p>Метод расчета</p>
+            <input
+              type="radio"
+              name="cold-water"
+              id="hot-water-metering"
+            /><label for="cold">Прибор учета</label>
+            <input
+              type="radio"
+              name="cold-water"
+              id="hot-water-standard"
+            /><label for="cold">Норматив</label>
+            <p>Тариф</p>
+            <select name="tarif" id="">
+              <option value="Тариф" selected disabled>Выберите Тариф</option>
+              <option value="standart">43.26 - ООО "Водоканал ЮЖНЫЙ"</option>
+            </select>
+            <p>Расход</p>
+            <input type="number" step="0.1" />
+            <p>Тариф в текущем периоде: 43.26 руб./м</p>
+            <p>Тариф в базовом периоде: 43.26 руб./м</p>
+          </details>
+        </section>
+
+        <section class="heating">
+          <details>
+            <summary>Отопление</summary>
+            <p>Метод расчета</p>
+            <input type="radio" name="cold-water" id="heating-metering" /><label
+              for="cold"
+              >Прибор учета</label
+            >
+            <input type="radio" name="cold-water" id="heating-standard" /><label
+              for="cold"
+              >Норматив</label
+            >
+            <p>Тариф</p>
+            <select name="tarif" id="">
+              <option value="Тариф" selected disabled>Выберите Тариф</option>
+              <option value="standart">43.26 - ООО "Водоканал ЮЖНЫЙ"</option>
+            </select>
+            <p>Расход</p>
+            <input type="number" step="0.1" />
+            <p>Тариф в текущем периоде: 43.26 руб./м</p>
+            <p>Тариф в базовом периоде: 43.26 руб./м</p>
+          </details>
+        </section>
+
+        <section class="power-supply">
+          <details>
+            <summary>Электроснабжение</summary>
+            <p>Метод расчета</p>
+            <input
+              type="radio"
+              name="cold-water"
+              id="power-supply-metering"
+            /><label for="cold">Прибор учета</label>
+            <input
+              type="radio"
+              name="cold-water"
+              id="power-supply-standard"
+            /><label for="cold">Норматив</label>
+            <p>Тип тарифа</p>
+            <input type="radio" name="column" id="single-column" /><label
+              for="single-column"
+              >Расчет по одноставочным тарифам</label
+            >
+            <input type="radio" name="column" id="multi-zone" /><label
+              for="multi-zone"
+              >2-х зонная тарификация</label
+            >
+            <p>Тариф</p>
+            <select name="tarif" id="">
+              <option value="Тариф" selected disabled>Выберите Тариф</option>
+              <option value="standart">43.26 - ООО "Водоканал ЮЖНЫЙ"</option>
+            </select>
+            <p>Расход</p>
+            <input type="number" step="0.1" />
+            <p>Тариф в текущем периоде: 43.26 руб./м</p>
+            <p>Тариф в базовом периоде: 43.26 руб./м</p>
+          </details>
+        </section>
+
+        <section class="municipal-waste">
+          <details>
+            <summary>Обращение с твёрдыми коммунальными отходами</summary>
+            <p>Тариф</p>
+            <select name="tarif" id="">
+              <option value="Тариф" selected disabled>Выберите Тариф</option>
+              <option value="standart">43.26 - ООО "Водоканал ЮЖНЫЙ"</option>
+            </select>
+            <p>Тариф в текущем периоде: 43.26 руб./м</p>
+            <p>Тариф в базовом периоде: 43.26 руб./м</p>
+          </details>
+        </section>
+
+        <button>Расчитать</button>
+
+        <section class="table">
+          <table border="1">
+            <thead>
+              <tr>
+                <th rowspan="2">Услуга</th>
+                <th colspan="2">Тариф</th>
+                <th colspan="2">Объем потребления</th>
+                <th colspan="2">Расчёт</th>
+                <th rowspan="2">Плата в текущем периоде</th>
+                <th rowspan="2">Плата в базовом периоде</th>
+              </tr>
+              <tr>
+                <th>Инд. потребление</th>
+                <th>ОДН</th>
+                <th>Инд. потребление</th>
+                <th>ОДН</th>
+                <th>Инд. потребление</th>
+                <th>ОДН</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Хол. водоснабжение</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+              </tr>
+              <tr>
+                <td>Водоотведение</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+              </tr>
+              <tr>
+                <td>Гор. водоснабжение</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+              </tr>
+              <tr>
+                <td>Отопление</td>
+                <td>1880.11</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>1880.11 руб./Гкал × 0 Гкал</td>
+                <td>-</td>
+                <td>0.00</td>
+                <td>0.00</td>
+              </tr>
+              <tr>
+                <td>Электроснабжение</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+              </tr>
+              <tr>
+                <td>Газоснабжение</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+              </tr>
+              <tr>
+                <td>Обращение с ТКО</td>
+                <td>969.7</td>
+                <td>-</td>
+                <td>0.33</td>
+                <td>-</td>
+                <td>969.7 руб/м³ × 0.33 м³ на домовладение</td>
+                <td>-</td>
+                <td>320.00</td>
+                <td>320.00</td>
+              </tr>
+              <tr>
+                <td>Итого</td>
+                <td colspan="7"></td>
+                <td>0.00</td>
+              </tr>
+              <tr>
+                <td>Индекс роста</td>
+                <td colspan="8">0.00</td>
+              </tr>
+              <tr>
+                <td>Предельный индекс</td>
+                <td colspan="8">0</td>
+              </tr>
+              <tr>
+                <td>Превышение</td>
+                <td colspan="8">Нет</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

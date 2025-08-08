@@ -1,0 +1,104 @@
+/* Default style start */
+:root {
+    --color-text: #000;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+}
+
+body {
+  min-width: 1200px;
+  font-family: "FiraSansCondensed", sans-serif;
+  background-color: #696969;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}
+
+@font-face {
+  font-family: "FiraSansCondensed";
+  src: local("FiraSansCondensed-Bold"), url("../fonts/FiraSansCondensed-Bold.ttf") format("ttf");
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "FiraSansCondensed";
+  src: local("FiraSansCondensed-Regular"),
+    url("../fonts/FiraSansCondensed-Regular.ttf") format("ttf");
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+}
+
+/* Default style end */
+
+/* Global style start */
+
+.container {
+  width: 1200px;
+  padding: 0 15px;
+  margin: 0 auto;
+}
+
+.flex {
+  display: flex;
+}
+
+/* Global style end */
+
+/* Header start */
+.header__container {
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    padding-top: 20px;
+
+    background-color: rgb(255, 255, 255);
+    font-weight: 600;
+}
+
+.header__container::before {
+    content: 'Комитет по тарифам';
+    color: var(--color-text);
+    font-size: 20px;
+}
+.header__container::after {
+    content: 'г. Лангепас';
+    color: var(--color-text);
+    font-size: 20px;
+}
+
+.header__logo {
+    width: 150px;
+    margin-right: 1px;
+}
+
+/* Header end */
