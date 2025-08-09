@@ -18,7 +18,7 @@
         </div>
       </div>
     </header>
-    
+
     <div class="container">
       <main class="main">
         <h1 class="main__title">Калькулятор стоимости платы граждан</h1>
@@ -29,7 +29,12 @@
           <div class="form-section__content">
             <div class="form-group">
               <label class="form-group__label" for="year-select">Год</label>
-              <select class="form-control" name="year" id="year-select" required>
+              <select
+                class="form-control"
+                name="year"
+                id="year-select"
+                required
+              >
                 <option value="" selected disabled>Выберите год</option>
                 <option value="2023">2023</option>
                 <option value="2024">2024</option>
@@ -38,7 +43,12 @@
             </div>
             <div class="form-group">
               <label class="form-group__label" for="month-select">Месяц</label>
-              <select class="form-control" name="month" id="month-select" required>
+              <select
+                class="form-control"
+                name="month"
+                id="month-select"
+                required
+              >
                 <option value="" selected disabled>Выберите месяц</option>
                 <option value="1">Январь</option>
                 <option value="2">Февраль</option>
@@ -55,8 +65,16 @@
               </select>
             </div>
             <div class="form-group">
-              <label class="form-group__label" for="basic-period">Базовый период</label>
-              <input class="form-control" type="text" name="basic-period" id="basic-period" disabled />
+              <label class="form-group__label" for="basic-period"
+                >Базовый период</label
+              >
+              <input
+                class="form-control"
+                type="text"
+                name="basic-period"
+                id="basic-period"
+                disabled
+              />
             </div>
           </div>
         </section>
@@ -66,35 +84,74 @@
           <div class="form-section__content">
             <div class="radio-group">
               <div class="radio-item">
-                <input class="radio-item__input" type="radio" name="home" id="apartment-building" />
-                <label class="radio-item__label" for="apartment-building">Многоквартирный дом</label>
+                <input
+                  class="radio-item__input"
+                  type="radio"
+                  name="home"
+                  id="apartment-building"
+                  checked
+                />
+                <label class="radio-item__label" for="apartment-building"
+                  >Многоквартирный дом</label
+                >
               </div>
               <div class="radio-item">
-                <input class="radio-item__input" type="radio" name="home" id="dacha" />
-                <label class="radio-item__label" for="dacha">Жилой дом / Дача</label>
+                <input
+                  class="radio-item__input"
+                  type="radio"
+                  name="home"
+                  id="dacha"
+                />
+                <label class="radio-item__label" for="dacha"
+                  >Жилой дом / Дача</label
+                >
               </div>
               <div class="radio-item">
-                <input class="radio-item__input" type="radio" name="home" id="dormitory" />
-                <label class="radio-item__label" for="dormitory">Общежитие</label>
+                <input
+                  class="radio-item__input"
+                  type="radio"
+                  name="home"
+                  id="dormitory"
+                />
+                <label class="radio-item__label" for="dormitory"
+                  >Общежитие</label
+                >
               </div>
             </div>
           </div>
         </section>
 
         <section class="form-section form-section--residents">
-          <h2 class="form-section__title">Количество проживающих (зарегистрированных)</h2>
+          <h2 class="form-section__title">
+            Количество проживающих (зарегистрированных)
+          </h2>
           <div class="form-section__content">
             <div class="form-group">
-              <input class="form-control" type="number" name="residents" id="resident" min="1" />
+              <input
+                class="form-control"
+                type="number"
+                name="residents"
+                id="resident"
+                min="1"
+              />
             </div>
           </div>
         </section>
 
         <section class="form-section form-section--area">
-          <h2 class="form-section__title">Площадь жилого помещения (квартиры) в кв. м.</h2>
+          <h2 class="form-section__title">
+            Площадь жилого помещения (квартиры) в кв. м.
+          </h2>
           <div class="form-section__content">
             <div class="form-group">
-              <input class="form-control" type="number" name="area-room" id="area" step="0.1" min="0.1" />
+              <input
+                class="form-control"
+                type="number"
+                name="area-room"
+                id="area"
+                step="0.1"
+                min="0.1"
+              />
             </div>
           </div>
         </section>
@@ -102,35 +159,71 @@
         <section class="form-section form-section--services">
           <div class="service-item">
             <details class="service-details">
-              <summary class="service-details__summary">Холодное водоснабжение</summary>
+              <summary class="service-details__summary">
+                Холодное водоснабжение
+              </summary>
               <div class="service-details__content">
                 <div class="form-group">
                   <label class="form-group__label">Метод расчета</label>
                   <div class="radio-group">
                     <div class="radio-item">
-                      <input class="radio-item__input" type="radio" name="cold-water" id="cold-water-metering" />
-                      <label class="radio-item__label" for="cold-water-metering">Прибор учета</label>
+                      <input
+                        class="radio-item__input"
+                        type="radio"
+                        name="cold-water"
+                        id="cold-water-metering"
+                        checked
+                      />
+                      <label class="radio-item__label" for="cold-water-metering"
+                        >Прибор учета</label
+                      >
                     </div>
                     <div class="radio-item">
-                      <input class="radio-item__input" type="radio" name="cold-water" id="cold-water-standard" />
-                      <label class="radio-item__label" for="cold-water-standard">Норматив</label>
+                      <input
+                        class="radio-item__input"
+                        type="radio"
+                        name="cold-water"
+                        id="cold-water-standard"
+                      />
+                      <label class="radio-item__label" for="cold-water-standard"
+                        >Норматив</label
+                      >
                     </div>
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="form-group__label" for="cold-water-tariff">Тариф</label>
-                  <select class="form-control" name="tariff" id="cold-water-tariff">
+                  <label class="form-group__label" for="cold-water-tariff"
+                    >Тариф</label
+                  >
+                  <select
+                    class="form-control"
+                    name="tariff"
+                    id="cold-water-tariff"
+                  >
                     <option value="" selected disabled>Выберите тариф</option>
-                    <option value="standart">43.26 - ООО "Водоканал ЮЖНЫЙ"</option>
+                    <option value="standart">
+                      43.26 - ООО "Водоканал ЮЖНЫЙ"
+                    </option>
                   </select>
                 </div>
                 <div class="form-group">
-                  <label class="form-group__label" for="cold-water-consumption">Расход</label>
-                  <input class="form-control" type="number" step="0.1" id="cold-water-consumption" />
+                  <label class="form-group__label" for="cold-water-consumption"
+                    >Расход</label
+                  >
+                  <input
+                    class="form-control"
+                    type="number"
+                    step="0.1"
+                    id="cold-water-consumption"
+                  />
                 </div>
                 <div class="tariff-info">
-                  <p class="tariff-info__text">Тариф в текущем периоде: 43.26 руб./м</p>
-                  <p class="tariff-info__text">Тариф в базовом периоде: 43.26 руб./м</p>
+                  <p class="tariff-info__text">
+                    Тариф в текущем периоде: 43.26 руб./м
+                  </p>
+                  <p class="tariff-info__text">
+                    Тариф в базовом периоде: 43.26 руб./м
+                  </p>
                 </div>
               </div>
             </details>
@@ -144,29 +237,66 @@
                   <label class="form-group__label">Метод расчета</label>
                   <div class="radio-group">
                     <div class="radio-item">
-                      <input class="radio-item__input" type="radio" name="water-disposal" id="water-disposal-auto" />
-                      <label class="radio-item__label" for="water-disposal-auto">Автоматически</label>
+                      <input
+                        class="radio-item__input"
+                        type="radio"
+                        name="water-disposal"
+                        id="water-disposal-auto"
+                      />
+                      <label class="radio-item__label" for="water-disposal-auto"
+                        >Автоматически</label
+                      >
                     </div>
                     <div class="radio-item">
-                      <input class="radio-item__input" type="radio" name="water-disposal" id="water-disposal-manual" />
-                      <label class="radio-item__label" for="water-disposal-manual">Вручную</label>
+                      <input
+                        class="radio-item__input"
+                        type="radio"
+                        name="water-disposal"
+                        id="water-disposal-manual"
+                      />
+                      <label
+                        class="radio-item__label"
+                        for="water-disposal-manual"
+                        >Вручную</label
+                      >
                     </div>
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="form-group__label" for="water-disposal-tariff">Тариф</label>
-                  <select class="form-control" name="tariff" id="water-disposal-tariff">
+                  <label class="form-group__label" for="water-disposal-tariff"
+                    >Тариф</label
+                  >
+                  <select
+                    class="form-control"
+                    name="tariff"
+                    id="water-disposal-tariff"
+                  >
                     <option value="" selected disabled>Выберите тариф</option>
-                    <option value="standart">43.26 - ООО "Водоканал ЮЖНЫЙ"</option>
+                    <option value="standart">
+                      43.26 - ООО "Водоканал ЮЖНЫЙ"
+                    </option>
                   </select>
                 </div>
                 <div class="form-group">
-                  <label class="form-group__label" for="water-disposal-consumption">Расход</label>
-                  <input class="form-control" type="number" step="0.1" id="water-disposal-consumption" />
+                  <label
+                    class="form-group__label"
+                    for="water-disposal-consumption"
+                    >Расход</label
+                  >
+                  <input
+                    class="form-control"
+                    type="number"
+                    step="0.1"
+                    id="water-disposal-consumption"
+                  />
                 </div>
                 <div class="tariff-info">
-                  <p class="tariff-info__text">Тариф в текущем периоде: 43.26 руб./м</p>
-                  <p class="tariff-info__text">Тариф в базовом периоде: 43.26 руб./м</p>
+                  <p class="tariff-info__text">
+                    Тариф в текущем периоде: 43.26 руб./м
+                  </p>
+                  <p class="tariff-info__text">
+                    Тариф в базовом периоде: 43.26 руб./м
+                  </p>
                 </div>
               </div>
             </details>
@@ -174,35 +304,70 @@
 
           <div class="service-item">
             <details class="service-details">
-              <summary class="service-details__summary">Горячее водоснабжение</summary>
+              <summary class="service-details__summary">
+                Горячее водоснабжение
+              </summary>
               <div class="service-details__content">
                 <div class="form-group">
                   <label class="form-group__label">Метод расчета</label>
                   <div class="radio-group">
                     <div class="radio-item">
-                      <input class="radio-item__input" type="radio" name="hot-water" id="hot-water-metering" />
-                      <label class="radio-item__label" for="hot-water-metering">Прибор учета</label>
+                      <input
+                        class="radio-item__input"
+                        type="radio"
+                        name="hot-water"
+                        id="hot-water-metering"
+                      />
+                      <label class="radio-item__label" for="hot-water-metering"
+                        >Прибор учета</label
+                      >
                     </div>
                     <div class="radio-item">
-                      <input class="radio-item__input" type="radio" name="hot-water" id="hot-water-standard" />
-                      <label class="radio-item__label" for="hot-water-standard">Норматив</label>
+                      <input
+                        class="radio-item__input"
+                        type="radio"
+                        name="hot-water"
+                        id="hot-water-standard"
+                      />
+                      <label class="radio-item__label" for="hot-water-standard"
+                        >Норматив</label
+                      >
                     </div>
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="form-group__label" for="hot-water-tariff">Тариф</label>
-                  <select class="form-control" name="tariff" id="hot-water-tariff">
+                  <label class="form-group__label" for="hot-water-tariff"
+                    >Тариф</label
+                  >
+                  <select
+                    class="form-control"
+                    name="tariff"
+                    id="hot-water-tariff"
+                  >
                     <option value="" selected disabled>Выберите тариф</option>
-                    <option value="standart">43.26 - ООО "Водоканал ЮЖНЫЙ"</option>
+                    <option value="standart">
+                      43.26 - ООО "Водоканал ЮЖНЫЙ"
+                    </option>
                   </select>
                 </div>
                 <div class="form-group">
-                  <label class="form-group__label" for="hot-water-consumption">Расход</label>
-                  <input class="form-control" type="number" step="0.1" id="hot-water-consumption" />
+                  <label class="form-group__label" for="hot-water-consumption"
+                    >Расход</label
+                  >
+                  <input
+                    class="form-control"
+                    type="number"
+                    step="0.1"
+                    id="hot-water-consumption"
+                  />
                 </div>
                 <div class="tariff-info">
-                  <p class="tariff-info__text">Тариф в текущем периоде: 43.26 руб./м</p>
-                  <p class="tariff-info__text">Тариф в базовом периоде: 43.26 руб./м</p>
+                  <p class="tariff-info__text">
+                    Тариф в текущем периоде: 43.26 руб./м
+                  </p>
+                  <p class="tariff-info__text">
+                    Тариф в базовом периоде: 43.26 руб./м
+                  </p>
                 </div>
               </div>
             </details>
@@ -216,29 +381,62 @@
                   <label class="form-group__label">Метод расчета</label>
                   <div class="radio-group">
                     <div class="radio-item">
-                      <input class="radio-item__input" type="radio" name="heating" id="heating-metering" />
-                      <label class="radio-item__label" for="heating-metering">Прибор учета</label>
+                      <input
+                        class="radio-item__input"
+                        type="radio"
+                        name="heating"
+                        id="heating-metering"
+                      />
+                      <label class="radio-item__label" for="heating-metering"
+                        >Прибор учета</label
+                      >
                     </div>
                     <div class="radio-item">
-                      <input class="radio-item__input" type="radio" name="heating" id="heating-standard" />
-                      <label class="radio-item__label" for="heating-standard">Норматив</label>
+                      <input
+                        class="radio-item__input"
+                        type="radio"
+                        name="heating"
+                        id="heating-standard"
+                      />
+                      <label class="radio-item__label" for="heating-standard"
+                        >Норматив</label
+                      >
                     </div>
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="form-group__label" for="heating-tariff">Тариф</label>
-                  <select class="form-control" name="tariff" id="heating-tariff">
+                  <label class="form-group__label" for="heating-tariff"
+                    >Тариф</label
+                  >
+                  <select
+                    class="form-control"
+                    name="tariff"
+                    id="heating-tariff"
+                  >
                     <option value="" selected disabled>Выберите тариф</option>
-                    <option value="standart">43.26 - ООО "Водоканал ЮЖНЫЙ"</option>
+                    <option value="standart">
+                      43.26 - ООО "Водоканал ЮЖНЫЙ"
+                    </option>
                   </select>
                 </div>
                 <div class="form-group">
-                  <label class="form-group__label" for="heating-consumption">Расход</label>
-                  <input class="form-control" type="number" step="0.1" id="heating-consumption" />
+                  <label class="form-group__label" for="heating-consumption"
+                    >Расход</label
+                  >
+                  <input
+                    class="form-control"
+                    type="number"
+                    step="0.1"
+                    id="heating-consumption"
+                  />
                 </div>
                 <div class="tariff-info">
-                  <p class="tariff-info__text">Тариф в текущем периоде: 43.26 руб./м</p>
-                  <p class="tariff-info__text">Тариф в базовом периоде: 43.26 руб./м</p>
+                  <p class="tariff-info__text">
+                    Тариф в текущем периоде: 43.26 руб./м
+                  </p>
+                  <p class="tariff-info__text">
+                    Тариф в базовом периоде: 43.26 руб./м
+                  </p>
                 </div>
               </div>
             </details>
@@ -246,18 +444,38 @@
 
           <div class="service-item">
             <details class="service-details">
-              <summary class="service-details__summary">Электроснабжение</summary>
+              <summary class="service-details__summary">
+                Электроснабжение
+              </summary>
               <div class="service-details__content">
                 <div class="form-group">
                   <label class="form-group__label">Метод расчета</label>
                   <div class="radio-group">
                     <div class="radio-item">
-                      <input class="radio-item__input" type="radio" name="power-supply" id="power-supply-metering" />
-                      <label class="radio-item__label" for="power-supply-metering">Прибор учета</label>
+                      <input
+                        class="radio-item__input"
+                        type="radio"
+                        name="power-supply"
+                        id="power-supply-metering"
+                      />
+                      <label
+                        class="radio-item__label"
+                        for="power-supply-metering"
+                        >Прибор учета</label
+                      >
                     </div>
                     <div class="radio-item">
-                      <input class="radio-item__input" type="radio" name="power-supply" id="power-supply-standard" />
-                      <label class="radio-item__label" for="power-supply-standard">Норматив</label>
+                      <input
+                        class="radio-item__input"
+                        type="radio"
+                        name="power-supply"
+                        id="power-supply-standard"
+                      />
+                      <label
+                        class="radio-item__label"
+                        for="power-supply-standard"
+                        >Норматив</label
+                      >
                     </div>
                   </div>
                 </div>
@@ -265,29 +483,64 @@
                   <label class="form-group__label">Тип тарифа</label>
                   <div class="radio-group">
                     <div class="radio-item">
-                      <input class="radio-item__input" type="radio" name="tariff-type" id="single-tariff" />
-                      <label class="radio-item__label" for="single-tariff">Расчет по одноставочным тарифам</label>
+                      <input
+                        class="radio-item__input"
+                        type="radio"
+                        name="tariff-type"
+                        id="single-tariff"
+                      />
+                      <label class="radio-item__label" for="single-tariff"
+                        >Расчет по одноставочным тарифам</label
+                      >
                     </div>
                     <div class="radio-item">
-                      <input class="radio-item__input" type="radio" name="tariff-type" id="multi-zone" />
-                      <label class="radio-item__label" for="multi-zone">2-х зонная тарификация</label>
+                      <input
+                        class="radio-item__input"
+                        type="radio"
+                        name="tariff-type"
+                        id="multi-zone"
+                      />
+                      <label class="radio-item__label" for="multi-zone"
+                        >2-х зонная тарификация</label
+                      >
                     </div>
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="form-group__label" for="power-supply-tariff">Тариф</label>
-                  <select class="form-control" name="tariff" id="power-supply-tariff">
+                  <label class="form-group__label" for="power-supply-tariff"
+                    >Тариф</label
+                  >
+                  <select
+                    class="form-control"
+                    name="tariff"
+                    id="power-supply-tariff"
+                  >
                     <option value="" selected disabled>Выберите тариф</option>
-                    <option value="standart">43.26 - ООО "Водоканал ЮЖНЫЙ"</option>
+                    <option value="standart">
+                      43.26 - ООО "Водоканал ЮЖНЫЙ"
+                    </option>
                   </select>
                 </div>
                 <div class="form-group">
-                  <label class="form-group__label" for="power-supply-consumption">Расход</label>
-                  <input class="form-control" type="number" step="0.1" id="power-supply-consumption" />
+                  <label
+                    class="form-group__label"
+                    for="power-supply-consumption"
+                    >Расход</label
+                  >
+                  <input
+                    class="form-control"
+                    type="number"
+                    step="0.1"
+                    id="power-supply-consumption"
+                  />
                 </div>
                 <div class="tariff-info">
-                  <p class="tariff-info__text">Тариф в текущем периоде: 43.26 руб./м</p>
-                  <p class="tariff-info__text">Тариф в базовом периоде: 43.26 руб./м</p>
+                  <p class="tariff-info__text">
+                    Тариф в текущем периоде: 43.26 руб./м
+                  </p>
+                  <p class="tariff-info__text">
+                    Тариф в базовом периоде: 43.26 руб./м
+                  </p>
                 </div>
               </div>
             </details>
@@ -295,18 +548,32 @@
 
           <div class="service-item">
             <details class="service-details">
-              <summary class="service-details__summary">Обращение с твёрдыми коммунальными отходами</summary>
+              <summary class="service-details__summary">
+                Обращение с твёрдыми коммунальными отходами
+              </summary>
               <div class="service-details__content">
                 <div class="form-group">
-                  <label class="form-group__label" for="municipal-waste-tariff">Тариф</label>
-                  <select class="form-control" name="tariff" id="municipal-waste-tariff">
+                  <label class="form-group__label" for="municipal-waste-tariff"
+                    >Тариф</label
+                  >
+                  <select
+                    class="form-control"
+                    name="tariff"
+                    id="municipal-waste-tariff"
+                  >
                     <option value="" selected disabled>Выберите тариф</option>
-                    <option value="standart">43.26 - ООО "Водоканал ЮЖНЫЙ"</option>
+                    <option value="standart">
+                      43.26 - ООО "Водоканал ЮЖНЫЙ"
+                    </option>
                   </select>
                 </div>
                 <div class="tariff-info">
-                  <p class="tariff-info__text">Тариф в текущем периоде: 43.26 руб./м</p>
-                  <p class="tariff-info__text">Тариф в базовом периоде: 43.26 руб./м</p>
+                  <p class="tariff-info__text">
+                    Тариф в текущем периоде: 43.26 руб./м
+                  </p>
+                  <p class="tariff-info__text">
+                    Тариф в базовом периоде: 43.26 руб./м
+                  </p>
                 </div>
               </div>
             </details>
@@ -323,7 +590,9 @@
             <table class="results-table">
               <thead class="results-table__head">
                 <tr>
-                  <th class="results-table__cell results-table__cell--service">Услуга</th>
+                  <th class="results-table__cell results-table__cell--service">
+                    Услуга
+                  </th>
                   <th class="results-table__cell">Тариф</th>
                   <th class="results-table__cell">Объем потребления</th>
                   <th class="results-table__cell">Расчёт</th>
@@ -333,7 +602,9 @@
               </thead>
               <tbody class="results-table__body">
                 <tr class="results-table__row">
-                  <td class="results-table__cell results-table__cell--service">Хол. водоснабжение</td>
+                  <td class="results-table__cell results-table__cell--service">
+                    Хол. водоснабжение
+                  </td>
                   <td class="results-table__cell">-</td>
                   <td class="results-table__cell">-</td>
                   <td class="results-table__cell">-</td>
@@ -341,7 +612,9 @@
                   <td class="results-table__cell">-</td>
                 </tr>
                 <tr class="results-table__row">
-                  <td class="results-table__cell results-table__cell--service">Водоотведение</td>
+                  <td class="results-table__cell results-table__cell--service">
+                    Водоотведение
+                  </td>
                   <td class="results-table__cell">-</td>
                   <td class="results-table__cell">-</td>
                   <td class="results-table__cell">-</td>
@@ -349,7 +622,9 @@
                   <td class="results-table__cell">-</td>
                 </tr>
                 <tr class="results-table__row">
-                  <td class="results-table__cell results-table__cell--service">Гор. водоснабжение</td>
+                  <td class="results-table__cell results-table__cell--service">
+                    Гор. водоснабжение
+                  </td>
                   <td class="results-table__cell">-</td>
                   <td class="results-table__cell">-</td>
                   <td class="results-table__cell">-</td>
@@ -357,15 +632,9 @@
                   <td class="results-table__cell">-</td>
                 </tr>
                 <tr class="results-table__row">
-                  <td class="results-table__cell results-table__cell--service">Отопление</td>
-                  <td class="results-table__cell">1880.11</td>
-                  <td class="results-table__cell">-</td>
-                  <td class="results-table__cell">-</td>
-                  <td class="results-table__cell">-</td>
-                  <td class="results-table__cell">-</td>
-                </tr>
-                <tr class="results-table__row">
-                  <td class="results-table__cell results-table__cell--service">Электроснабжение</td>
+                  <td class="results-table__cell results-table__cell--service">
+                    Отопление
+                  </td>
                   <td class="results-table__cell">-</td>
                   <td class="results-table__cell">-</td>
                   <td class="results-table__cell">-</td>
@@ -373,7 +642,9 @@
                   <td class="results-table__cell">-</td>
                 </tr>
                 <tr class="results-table__row">
-                  <td class="results-table__cell results-table__cell--service">Газоснабжение</td>
+                  <td class="results-table__cell results-table__cell--service">
+                    Электроснабжение
+                  </td>
                   <td class="results-table__cell">-</td>
                   <td class="results-table__cell">-</td>
                   <td class="results-table__cell">-</td>
@@ -381,29 +652,49 @@
                   <td class="results-table__cell">-</td>
                 </tr>
                 <tr class="results-table__row">
-                  <td class="results-table__cell results-table__cell--service">Обращение с ТКО</td>
-                  <td class="results-table__cell">969.7</td>
-                  <td class="results-table__cell">0.33</td>
-                  <td class="results-table__cell">969.7 руб/м³ × 0.33 м³ на домовладение</td>
-                  <td class="results-table__cell">320.00</td>
-                  <td class="results-table__cell">320.00</td>
+                  <td class="results-table__cell results-table__cell--service">
+                    Газоснабжение
+                  </td>
+                  <td class="results-table__cell">-</td>
+                  <td class="results-table__cell">-</td>
+                  <td class="results-table__cell">-</td>
+                  <td class="results-table__cell">-</td>
+                  <td class="results-table__cell">-</td>
+                </tr>
+                <tr class="results-table__row">
+                  <td class="results-table__cell results-table__cell--service">
+                    Обращение с ТКО
+                  </td>
+                  <td class="results-table__cell">-</td>
+                  <td class="results-table__cell">-</td>
+                  <td class="results-table__cell">-</td>
+                  <td class="results-table__cell">-</td>
+                  <td class="results-table__cell">-</td>
                 </tr>
                 <tr class="results-table__row results-table__row--total">
-                  <td class="results-table__cell results-table__cell--service">Итого</td>
+                  <td class="results-table__cell results-table__cell--service">
+                    Итого
+                  </td>
                   <td class="results-table__cell" colspan="4"></td>
-                  <td class="results-table__cell">0.00</td>
+                  <td class="results-table__cell">-</td>
                 </tr>
                 <tr class="results-table__row">
-                  <td class="results-table__cell results-table__cell--service">Индекс роста</td>
-                  <td class="results-table__cell" colspan="5">0.00</td>
+                  <td class="results-table__cell results-table__cell--service">
+                    Индекс роста
+                  </td>
+                  <td class="results-table__cell" colspan="5">-</td>
                 </tr>
                 <tr class="results-table__row">
-                  <td class="results-table__cell results-table__cell--service">Предельный индекс</td>
-                  <td class="results-table__cell" colspan="5">0</td>
+                  <td class="results-table__cell results-table__cell--service">
+                    Предельный индекс
+                  </td>
+                  <td class="results-table__cell" colspan="5">-</td>
                 </tr>
                 <tr class="results-table__row">
-                  <td class="results-table__cell results-table__cell--service">Превышение</td>
-                  <td class="results-table__cell" colspan="5">Нет</td>
+                  <td class="results-table__cell results-table__cell--service">
+                    Превышение
+                  </td>
+                  <td class="results-table__cell" colspan="5">-</td>
                 </tr>
               </tbody>
             </table>
@@ -411,9 +702,8 @@
         </section>
       </main>
     </div>
-    
-        <!-- JavaScript файлы -->
-    <script src="./js/excel-reader.js"></script>
-    <script src="./js/calculator.js"></script>
+
+    <!-- JavaScript файлы -->
+    <script src="./js/main.js"></script>
   </body>
 </html>
