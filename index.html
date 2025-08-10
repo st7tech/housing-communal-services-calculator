@@ -173,6 +173,7 @@
                         name="cold-water"
                         id="cold-water-metering"
                         checked
+                        value="input"
                       />
                       <label class="radio-item__label" for="cold-water-metering"
                         >Прибор учета</label
@@ -207,22 +208,47 @@
                   </select>
                 </div>
                 <div class="form-group">
-                  <label class="form-group__label" for="cold-water-consumption"
+                  <label
+                    class="form-group__label"
+                    for="cold-water-consumption-input"
+                    id="label-cold-water"
                     >Расход</label
                   >
                   <input
                     class="form-control"
                     type="number"
                     step="0.1"
-                    id="cold-water-consumption"
+                    id="cold-water-consumption-input"
                   />
+
+                  <label
+                    class="form-group__label"
+                    for="cold-water-consumption-select"
+                    style="display: none"
+                    >Выберите вид благоустройства</label
+                  >
+                  <select
+                    class="form-control"
+                    name="tariff"
+                    id="cold-water-consumption-select"
+                    style="display: none"
+                  >
+                    <option value="" selected disabled>
+                      Выберите из списка
+                    </option>
+                    <option value="standart">
+                      43.26 - ООО "Водоканал ЮЖНЫЙ"
+                    </option>
+                  </select>
                 </div>
                 <div class="tariff-info">
                   <p class="tariff-info__text">
-                    Тариф в текущем периоде: 43.26 руб./м
+                    Тариф в текущем периоде:
+                    <span id="cold-water-tarif-сurrent">-</span>
                   </p>
                   <p class="tariff-info__text">
-                    Тариф в базовом периоде: 43.26 руб./м
+                    Тариф в базовом периоде:
+                    <span id="cold-water-tarif-basiс">-</span>
                   </p>
                 </div>
               </div>
@@ -242,6 +268,8 @@
                         type="radio"
                         name="water-disposal"
                         id="water-disposal-auto"
+                        checked
+                        value="auto"
                       />
                       <label class="radio-item__label" for="water-disposal-auto"
                         >Автоматически</label
@@ -253,6 +281,7 @@
                         type="radio"
                         name="water-disposal"
                         id="water-disposal-manual"
+                        value="input"
                       />
                       <label
                         class="radio-item__label"
@@ -292,10 +321,12 @@
                 </div>
                 <div class="tariff-info">
                   <p class="tariff-info__text">
-                    Тариф в текущем периоде: 43.26 руб./м
+                    Тариф в текущем периоде:
+                    <span id="water-disposal-tarif-сurrent">-</span>
                   </p>
                   <p class="tariff-info__text">
-                    Тариф в базовом периоде: 43.26 руб./м
+                    Тариф в базовом периоде:
+                    <span id="water-disposal-tarif-сurrent">-</span>
                   </p>
                 </div>
               </div>
@@ -317,6 +348,8 @@
                         type="radio"
                         name="hot-water"
                         id="hot-water-metering"
+                        checked
+                        value="input"
                       />
                       <label class="radio-item__label" for="hot-water-metering"
                         >Прибор учета</label
@@ -328,6 +361,7 @@
                         type="radio"
                         name="hot-water"
                         id="hot-water-standard"
+                        value="select"
                       />
                       <label class="radio-item__label" for="hot-water-standard"
                         >Норматив</label
@@ -351,15 +385,35 @@
                   </select>
                 </div>
                 <div class="form-group">
-                  <label class="form-group__label" for="hot-water-consumption"
+                  <label class="form-group__label" for="hot-water-consumption-input"
                     >Расход</label
                   >
                   <input
                     class="form-control"
                     type="number"
                     step="0.1"
-                    id="hot-water-consumption"
+                    id="heating-consumption-input"
                   />
+
+                  <label
+                    class="form-group__label"
+                    for="heating-consumption-select"
+                    style="display: none"
+                    >Выберите вид благоустройства</label
+                  >
+                  <select
+                    class="form-control"
+                    name="tariff"
+                    id="heating-consumption-select"
+                    style="display: none"
+                  >
+                    <option value="" selected disabled>
+                      Выберите из списка
+                    </option>
+                    <option value="standart">
+                      43.26 - ООО "Водоканал ЮЖНЫЙ"
+                    </option>
+                  </select>
                 </div>
                 <div class="tariff-info">
                   <p class="tariff-info__text">
@@ -386,6 +440,8 @@
                         type="radio"
                         name="heating"
                         id="heating-metering"
+                        value="input"
+                        checked
                       />
                       <label class="radio-item__label" for="heating-metering"
                         >Прибор учета</label
@@ -397,6 +453,7 @@
                         type="radio"
                         name="heating"
                         id="heating-standard"
+                        value="select"
                       />
                       <label class="radio-item__label" for="heating-standard"
                         >Норматив</label
@@ -420,15 +477,35 @@
                   </select>
                 </div>
                 <div class="form-group">
-                  <label class="form-group__label" for="heating-consumption"
+                  <label class="form-group__label" for="heating-consumption-input"
                     >Расход</label
                   >
                   <input
                     class="form-control"
                     type="number"
                     step="0.1"
-                    id="heating-consumption"
+                    id="heating-consumption-input"
                   />
+
+                  <label
+                    class="form-group__label"
+                    for="heating-consumption-select"
+                    style="display: none"
+                    >Выберите вид благоустройства</label
+                  >
+                  <select
+                    class="form-control"
+                    name="tariff"
+                    id="heating-consumption-select"
+                    style="display: none"
+                  >
+                    <option value="" selected disabled>
+                      Выберите из списка
+                    </option>
+                    <option value="standart">
+                      43.26 - ООО "Водоканал ЮЖНЫЙ"
+                    </option>
+                  </select>
                 </div>
                 <div class="tariff-info">
                   <p class="tariff-info__text">
