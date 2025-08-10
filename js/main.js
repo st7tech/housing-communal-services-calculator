@@ -50,28 +50,34 @@ coldWaterRadios.forEach((radio) => {
 });
 
 const radios = document.querySelectorAll('input[name="water-disposal"]');
-const waterDisposalInput = document.getElementById('water-disposal-consumption');
+const waterDisposalInput = document.getElementById(
+  "water-disposal-consumption"
+);
 
 function updateWaterDisposalInput() {
-  const selected = document.querySelector('input[name="water-disposal"]:checked');
-  const isManual = selected && selected.value === 'input';
+  const selected = document.querySelector(
+    'input[name="water-disposal"]:checked'
+  );
+  const isManual = selected && selected.value === "input";
 
   waterDisposalInput.disabled = !isManual;
 
-  if (!isManual) waterDisposalInput.value = 'Введите значение';
+  if (!isManual) waterDisposalInput.value = "Введите значение";
 }
 
 // Повесить обработчики
-radios.forEach(radio => radio.addEventListener('change', updateWaterDisposalInput));
+radios.forEach((radio) =>
+  radio.addEventListener("change", updateWaterDisposalInput)
+);
 
 updateWaterDisposalInput();
 
-const hotWaterRadios = document.querySelectorAll('input[name="hot-water"]')
-const hotWaterInput = document.getElementById('hot-water-consumption')
-const hotWaterSelect = document.getElementById('hot-water-consumption-select')
+const hotWaterRadios = document.querySelectorAll('input[name="hot-water"]');
+const hotWaterInput = document.getElementById("hot-water-consumption-input");
+const hotWaterSelect = document.getElementById("hot-water-consumption-select");
 
-hotWaterRadios.forEach(radio => {
-  radio.addEventListener('change', () => {
+hotWaterRadios.forEach((radio) => {
+  radio.addEventListener("change", () => {
     if (radio.value === "input") {
       document.getElementById("hot-water-consumption-input").style.display =
         "block";
@@ -97,9 +103,50 @@ hotWaterRadios.forEach(radio => {
         'label[for="hot-water-consumption-select"]'
       ).style.display = "block";
     }
-  })
-})
+  });
+});
 
-const heatingRadios = document.querySelectorAll('input[name="heating"]')
-const heatingInput = document.getElementById('hot-water-consumption')
-const heatingSelect = document.getElementById('cold-water-consumption-select')
+const heatingRadios = document.querySelectorAll('input[name="heating"]');
+const heatingInput = document.getElementById("heating-consumption-input");
+const heatingSelect = document.getElementById("heating-consumption-select");
+
+heatingRadios.forEach((radio) => {
+  radio.addEventListener("change", () => {
+    if (radio.value === "input") {
+      document.getElementById("heating-consumption-input").style.display =
+        "block";
+      document.querySelector(
+        'label[for="heating-consumption-input"]'
+      ).style.display = "block";
+
+      document.getElementById("heating-consumption-select").style.display =
+        "none";
+      document.querySelector(
+        'label[for="heating-consumption-select"]'
+      ).style.display = "none";
+    } else {
+      document.getElementById("heating-consumption-input").style.display =
+        "none";
+      document.querySelector(
+        'label[for="heating-consumption-input"]'
+      ).style.display = "none";
+
+      document.getElementById("heating-consumption-select").style.display =
+        "block";
+      document.querySelector(
+        'label[for="heating-consumption-select"]'
+      ).style.display = "block";
+    }
+  });
+});
+
+const powerSupplyRadios = document.querySelectorAll('input[name="power-supply"]')
+const tarifTypeRadios = document.querySelectorAll('input[name="tariff-type"]')
+const powerSupplyInput = document.getElementById('power-supply-consumption-input')
+const powerSupplySelect = document.getElementById('power-supply-consumption-select')
+
+powerSupplyRadios.forEach(radio => {
+  if (radio.value === 'select') {
+    
+  }
+})
