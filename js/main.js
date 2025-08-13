@@ -731,7 +731,7 @@ function calculateServices() {
     }
     
     const supplier = service[supplierId];
-    if (!supplier || !supplier.standard) return null;
+    if (!supplier) return null;
     
     // Определяем тип дома
     const homeType = document.querySelector('input[name="home"]:checked')?.id;
@@ -742,7 +742,12 @@ function calculateServices() {
       standardType = 'forDormitory';
     }
     
-    return supplier.standard[standardType];
+    // Для ТКО используем 'manually', для остальных 'standard'
+    if (serviceType === 'municipalWaste') {
+      return supplier.manually ? supplier.manually[standardType] : null;
+    }
+    
+    return supplier.standard ? supplier.standard[standardType] : null;
   }
 
   // Расчет холодной воды
@@ -996,7 +1001,7 @@ function calculateServices() {
     let baseConsumption = 0;
     let calculation = '';
     
-    if (standard) {
+    if (standard && currentTariff) {
       currentConsumption = standard * residents;
       baseConsumption = standard * residents;
       calculation = `${standard} × ${residents} × ${currentTariff} = ${(standard * residents * currentTariff).toFixed(2)}`;
@@ -1079,51 +1084,76 @@ function calculateTotals(results) {
   if (totalRow) {
     const cells = totalRow.querySelectorAll('td');
     if (cells.length >= 6) {
-      cells[4].textContent = totalCurrent.toFixed(2);
-      cells[5].textContent = totalBase.toFixed(2);
+      cells[1].textContent = '-'; // Тариф не применим для итогов
+      cells[2].textContent = '-'; // Объем потребления не применим для итогов
+      cells[3].textContent = 'Сумма всех услуг'; // Расчет
+      cells[4].textContent = totalCurrent.toFixed(2); // Плата в текущем периоде
+      cells[5].textContent = totalBase.toFixed(2); // Плата в базовом периоде
     }
   }
   
   // Рассчитываем индекс роста
   let growthIndex = 0;
   if (totalBase > 0) {
-    growthIndex = ((totalCurrent - totalBase) / totalBase) * 100;
+    growthIndex = (totalCurrent / totalBase) * 100;
   }
+  
+  // Получаем предельный индекс для выбранного года
+  const year = parseInt(yearEl.value);
+  const limitIndex = tariffs.limitIndex[year] || 0;
   
   // Обновляем строку "Индекс роста"
-  const growthRow = findTableRowByText('Индекс роста');
-  if (growthRow) {
-    const cells = growthRow.querySelectorAll('td');
-    if (cells.length >= 6) {
-      cells[5].textContent = `${growthIndex.toFixed(2)}%`;
+  const allRows = document.querySelectorAll('.results-table__row');
+  for (let row of allRows) {
+    const firstCell = row.querySelector('td:first-child');
+    if (firstCell && firstCell.textContent.includes('Индекс роста')) {
+      const cells = row.querySelectorAll('td');
+      if (cells.length >= 6) {
+        cells[1].textContent = '-'; // Тариф не применим
+        cells[2].textContent = '-'; // Объем потребления не применим
+        cells[3].textContent = `(${totalCurrent.toFixed(2)} / ${totalBase.toFixed(2)}) × 100`; // Формула расчета
+        cells[4].textContent = '-'; // Плата в текущем периоде не применима
+        cells[5].textContent = `${growthIndex.toFixed(2)}%`; // Результат
+      }
+      break;
     }
   }
-  
-  // Предельный индекс (можно настроить по вашим требованиям)
-  const limitIndex = 6.0; // Пример значения
   
   // Обновляем строку "Предельный индекс"
-  const limitRow = findTableRowByText('Предельный индекс');
-  if (limitRow) {
-    const cells = limitRow.querySelectorAll('td');
-    if (cells.length >= 6) {
-      cells[5].textContent = `${limitIndex.toFixed(2)}%`;
+  for (let row of allRows) {
+    const firstCell = row.querySelector('td:first-child');
+    if (firstCell && firstCell.textContent.includes('Предельный индекс')) {
+      const cells = row.querySelectorAll('td');
+      if (cells.length >= 6) {
+        cells[1].textContent = '-'; // Тариф не применим
+        cells[2].textContent = '-'; // Объем потребления не применим
+        cells[3].textContent = 'Устанавливается ежегодно'; // Описание
+        cells[4].textContent = '-'; // Плата в текущем периоде не применима
+        cells[5].textContent = `${limitIndex.toFixed(2)}%`; // Значение для выбранного года
+      }
+      break;
     }
   }
   
-  // Превышение
-  const excess = growthIndex - limitIndex;
-  const excessRow = findTableRowByText('Превышение');
-  if (excessRow) {
-    const cells = excessRow.querySelectorAll('td');
-    if (cells.length >= 6) {
-      if (excess > 0) {
-        cells[5].textContent = `${excess.toFixed(2)}%`;
-        cells[5].style.color = 'red';
-      } else {
-        cells[5].textContent = '0.00%';
-        cells[5].style.color = 'inherit';
+  // Превышение - показываем "Да" или "Нет"
+  for (let row of allRows) {
+    const firstCell = row.querySelector('td:first-child');
+    if (firstCell && firstCell.textContent.includes('Превышение')) {
+      const cells = row.querySelectorAll('td');
+      if (cells.length >= 6) {
+        cells[1].textContent = '-'; // Тариф не применим
+        cells[2].textContent = '-'; // Объем потребления не применим
+        cells[3].textContent = growthIndex > limitIndex ? 'Индекс роста > Предельного индекса' : 'Индекс роста ≤ Предельного индекса'; // Описание
+        cells[4].textContent = '-'; // Плата в текущем периоде не применима
+        if (growthIndex > limitIndex) {
+          cells[5].textContent = 'Да';
+          cells[5].style.color = 'red';
+        } else {
+          cells[5].textContent = 'Нет';
+          cells[5].style.color = 'inherit';
+        }
       }
+      break;
     }
   }
 }
