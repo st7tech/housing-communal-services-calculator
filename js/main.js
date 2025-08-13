@@ -3,6 +3,20 @@ const yearEl = document.getElementById("year-select");
 const monthEl = document.getElementById("month-select");
 const resultBasic = document.getElementById("basic-period");
 
+// Функция для поиска строки таблицы по тексту
+function findTableRowByText(searchText) {
+  const rows = document.querySelectorAll('.results-table__row');
+  for (let row of rows) {
+    const cells = row.querySelectorAll('td');
+    for (let cell of cells) {
+      if (cell.textContent.includes(searchText)) {
+        return row;
+      }
+    }
+  }
+  return null;
+}
+
 // Функция для заполнения select-элементов тарифами
 function populateTariffs() {
   const selectedYear = parseInt(yearEl.value) || 2024;
@@ -622,4 +636,511 @@ document.addEventListener('keydown', (event) => {
   if (event.key === 'Escape' && modal && modal.classList.contains('active')) {
     closeModal();
   }
+});
+
+// Функция для расчета всех услуг
+function calculateServices() {
+  const year = parseInt(yearEl.value);
+  const month = parseInt(monthEl.value);
+  const residents = parseInt(document.getElementById('resident').value) || 0;
+  const area = parseFloat(document.getElementById('area').value) || 0;
+  
+  if (!year || !month) {
+    alert('Пожалуйста, выберите год и месяц');
+    return;
+  }
+
+  // Определяем даты для текущего и базового периодов
+  let currentPeriodDate = '01.01.2024';
+  let basePeriodDate = '01.01.2023';
+  
+  if (year === 2024) {
+    if (month >= 7) {
+      currentPeriodDate = '01.07.2024';
+      basePeriodDate = '01.01.2024';
+    } else {
+      currentPeriodDate = '01.01.2024';
+      basePeriodDate = '01.01.2023';
+    }
+  } else if (year === 2025) {
+    if (month >= 7) {
+      currentPeriodDate = '01.07.2025';
+      basePeriodDate = '01.01.2025';
+    } else {
+      currentPeriodDate = '01.01.2025';
+      basePeriodDate = '01.01.2024';
+    }
+  }
+
+  // Функция для получения тарифа
+  function getTariff(serviceType, date, supplierId = null) {
+    if (!tariffs[serviceType]) return null;
+    
+    const service = tariffs[serviceType];
+    
+    // Если поставщик не указан, берем первого доступного
+    if (!supplierId) {
+      supplierId = Object.keys(service)[0];
+    }
+    
+    const supplier = service[supplierId];
+    if (!supplier) return null;
+    
+    switch (serviceType) {
+      case 'coldWater':
+      case 'hotWater':
+        return supplier.meteringDevice[date];
+      case 'waterDisposal':
+        return supplier.automatically[date];
+      case 'heating':
+        return supplier.meteringDevice[date];
+      case 'powerSupply':
+        return supplier.meteringDevice.single[date];
+      case 'municipalWaste':
+        return supplier.automatically[date];
+      default:
+        return null;
+    }
+  }
+
+  // Функция для получения тарифа электроснабжения (двухзонный)
+  function getPowerSupplyTariffs(date, supplierId = null) {
+    if (!tariffs.powerSupply) return null;
+    
+    const service = tariffs.powerSupply;
+    if (!supplierId) {
+      supplierId = Object.keys(service)[0];
+    }
+    
+    const supplier = service[supplierId];
+    if (!supplier) return null;
+    
+    return {
+      day: supplier.meteringDevice.multiZone.day[date],
+      night: supplier.meteringDevice.multiZone.night[date]
+    };
+  }
+
+  // Функция для получения норматива
+  function getStandard(serviceType, supplierId = null) {
+    if (!tariffs[serviceType]) return null;
+    
+    const service = tariffs[serviceType];
+    if (!supplierId) {
+      supplierId = Object.keys(service)[0];
+    }
+    
+    const supplier = service[supplierId];
+    if (!supplier || !supplier.standard) return null;
+    
+    // Определяем тип дома
+    const homeType = document.querySelector('input[name="home"]:checked')?.id;
+    let standardType = 'forMKD';
+    if (homeType === 'dacha') {
+      standardType = 'forPrivateHouse';
+    } else if (homeType === 'dormitory') {
+      standardType = 'forDormitory';
+    }
+    
+    return supplier.standard[standardType];
+  }
+
+  // Расчет холодной воды
+  function calculateColdWater() {
+    const method = document.querySelector('input[name="cold-water"]:checked')?.value;
+    const supplierId = document.getElementById('cold-water-tariff')?.value;
+    const consumption = parseFloat(document.getElementById('cold-water-consumption-input')?.value) || 0;
+    
+    let currentTariff = getTariff('coldWater', currentPeriodDate, supplierId);
+    let baseTariff = getTariff('coldWater', basePeriodDate, supplierId);
+    
+    let currentConsumption = 0;
+    let baseConsumption = 0;
+    let calculation = '';
+    
+    if (method === 'input') {
+      // По прибору учета
+      currentConsumption = consumption;
+      baseConsumption = consumption;
+      calculation = `${currentTariff} × ${consumption} = ${(currentTariff * consumption).toFixed(2)}`;
+    } else {
+      // По нормативу
+      const standard = getStandard('coldWater', supplierId);
+      if (standard) {
+        currentConsumption = standard * residents;
+        baseConsumption = standard * residents;
+        calculation = `${standard} × ${residents} × ${currentTariff} = ${(standard * residents * currentTariff).toFixed(2)}`;
+      }
+    }
+    
+    return {
+      tariff: currentTariff?.toFixed(2) || '0',
+      consumption: currentConsumption.toFixed(2),
+      calculation: calculation || '0',
+      currentPayment: (currentTariff * currentConsumption).toFixed(2),
+      basePayment: (baseTariff * baseConsumption).toFixed(2)
+    };
+  }
+
+  // Расчет водоотведения
+  function calculateWaterDisposal() {
+    const method = document.querySelector('input[name="water-disposal"]:checked')?.value;
+    const supplierId = document.getElementById('water-disposal-tariff')?.value;
+    const manualConsumption = parseFloat(document.getElementById('water-disposal-consumption')?.value) || 0;
+    
+    let currentTariff = getTariff('waterDisposal', currentPeriodDate, supplierId);
+    let baseTariff = getTariff('waterDisposal', basePeriodDate, supplierId);
+    
+    let currentConsumption = 0;
+    let baseConsumption = 0;
+    let calculation = '';
+    
+    if (method === 'input') {
+      // Вручную
+      currentConsumption = manualConsumption;
+      baseConsumption = manualConsumption;
+      calculation = `${currentTariff} × ${manualConsumption} = ${(currentTariff * manualConsumption).toFixed(2)}`;
+    } else {
+      // Автоматически - сумма горячей и холодной воды
+      const coldWaterConsumption = parseFloat(document.getElementById('cold-water-consumption-input')?.value) || 0;
+      const hotWaterConsumption = parseFloat(document.getElementById('hot-water-consumption-input')?.value) || 0;
+      
+      // Если выбраны нормативы, используем их
+      const coldWaterMethod = document.querySelector('input[name="cold-water"]:checked')?.value;
+      const hotWaterMethod = document.querySelector('input[name="hot-water"]:checked')?.value;
+      
+      let totalConsumption = 0;
+      
+      if (coldWaterMethod === 'input') {
+        totalConsumption += coldWaterConsumption;
+      } else {
+        const coldWaterStandard = getStandard('coldWater', supplierId);
+        if (coldWaterStandard) {
+          totalConsumption += coldWaterStandard * residents;
+        }
+      }
+      
+      if (hotWaterMethod === 'input') {
+        totalConsumption += hotWaterConsumption;
+      } else {
+        const hotWaterStandard = getStandard('hotWater', supplierId);
+        if (hotWaterStandard) {
+          totalConsumption += hotWaterStandard * residents;
+        }
+      }
+      
+      currentConsumption = totalConsumption;
+      baseConsumption = totalConsumption;
+      calculation = `${currentTariff} × ${totalConsumption.toFixed(2)} = ${(currentTariff * totalConsumption).toFixed(2)}`;
+    }
+    
+    return {
+      tariff: currentTariff?.toFixed(2) || '0',
+      consumption: currentConsumption.toFixed(2),
+      calculation: calculation || '0',
+      currentPayment: (currentTariff * currentConsumption).toFixed(2),
+      basePayment: (baseTariff * baseConsumption).toFixed(2)
+    };
+  }
+
+  // Расчет горячей воды
+  function calculateHotWater() {
+    const method = document.querySelector('input[name="hot-water"]:checked')?.value;
+    const supplierId = document.getElementById('hot-water-tariff')?.value;
+    const consumption = parseFloat(document.getElementById('hot-water-consumption-input')?.value) || 0;
+    
+    let currentTariff = getTariff('hotWater', currentPeriodDate, supplierId);
+    let baseTariff = getTariff('hotWater', basePeriodDate, supplierId);
+    
+    let currentConsumption = 0;
+    let baseConsumption = 0;
+    let calculation = '';
+    
+    if (method === 'input') {
+      // По прибору учета
+      currentConsumption = consumption;
+      baseConsumption = consumption;
+      calculation = `${currentTariff} × ${consumption} = ${(currentTariff * consumption).toFixed(2)}`;
+    } else {
+      // По нормативу
+      const standard = getStandard('hotWater', supplierId);
+      if (standard) {
+        currentConsumption = standard * residents;
+        baseConsumption = standard * residents;
+        calculation = `${standard} × ${residents} × ${currentTariff} = ${(standard * residents * currentTariff).toFixed(2)}`;
+      }
+    }
+    
+    return {
+      tariff: currentTariff?.toFixed(2) || '0',
+      consumption: currentConsumption.toFixed(2),
+      calculation: calculation || '0',
+      currentPayment: (currentTariff * currentConsumption).toFixed(2),
+      basePayment: (baseTariff * baseConsumption).toFixed(2)
+    };
+  }
+
+  // Расчет отопления
+  function calculateHeating() {
+    const method = document.querySelector('input[name="heating"]:checked')?.value;
+    const supplierId = document.getElementById('heating-tariff')?.value;
+    const consumption = parseFloat(document.getElementById('heating-consumption-input')?.value) || 0;
+    
+    let currentTariff = getTariff('heating', currentPeriodDate, supplierId);
+    let baseTariff = getTariff('heating', basePeriodDate, supplierId);
+    
+    let currentConsumption = 0;
+    let baseConsumption = 0;
+    let calculation = '';
+    
+    if (method === 'input') {
+      // По прибору учета
+      currentConsumption = consumption;
+      baseConsumption = consumption;
+      calculation = `${currentTariff} × ${consumption} = ${(currentTariff * consumption).toFixed(2)}`;
+    } else {
+      // По нормативу
+      const standard = getStandard('heating', supplierId);
+      if (standard) {
+        currentConsumption = standard * area;
+        baseConsumption = standard * area;
+        calculation = `${standard} × ${area} × ${currentTariff} = ${(standard * area * currentTariff).toFixed(2)}`;
+      }
+    }
+    
+    return {
+      tariff: currentTariff?.toFixed(2) || '0',
+      consumption: currentConsumption.toFixed(2),
+      calculation: calculation || '0',
+      currentPayment: (currentTariff * currentConsumption).toFixed(2),
+      basePayment: (baseTariff * baseConsumption).toFixed(2)
+    };
+  }
+
+  // Расчет электроснабжения
+  function calculatePowerSupply() {
+    const method = document.querySelector('input[name="power-supply"]:checked')?.value;
+    const tariffType = document.querySelector('input[name="tariff-type"]:checked')?.value;
+    const supplierId = document.getElementById('power-supply-tariff')?.value;
+    
+    let currentTariff = getTariff('powerSupply', currentPeriodDate, supplierId);
+    let baseTariff = getTariff('powerSupply', basePeriodDate, supplierId);
+    let currentMultiTariffs = getPowerSupplyTariffs(currentPeriodDate, supplierId);
+    let baseMultiTariffs = getPowerSupplyTariffs(basePeriodDate, supplierId);
+    
+    let currentConsumption = 0;
+    let baseConsumption = 0;
+    let calculation = '';
+    let tariffDisplay = '';
+    let consumptionDisplay = '';
+    
+    if (method === 'input') {
+      // По прибору учета
+      if (tariffType === '2-zone') {
+        // Двухзонная тарификация
+        const dayConsumption = parseFloat(document.getElementById('power-supply-consumption-day')?.value) || 0;
+        const nightConsumption = parseFloat(document.getElementById('power-supply-consumption-night')?.value) || 0;
+        
+        currentConsumption = dayConsumption + nightConsumption;
+        baseConsumption = dayConsumption + nightConsumption;
+        
+        const currentDayPayment = currentMultiTariffs.day * dayConsumption;
+        const currentNightPayment = currentMultiTariffs.night * nightConsumption;
+        const baseDayPayment = baseMultiTariffs.day * dayConsumption;
+        const baseNightPayment = baseMultiTariffs.night * nightConsumption;
+        
+        calculation = `${currentMultiTariffs.day} × ${dayConsumption} + ${currentMultiTariffs.night} × ${nightConsumption} = ${(currentDayPayment + currentNightPayment).toFixed(2)}`;
+        
+        tariffDisplay = `${currentMultiTariffs.day} | ${currentMultiTariffs.night}`;
+        consumptionDisplay = `${dayConsumption} | ${nightConsumption}`;
+      } else {
+        // Одноставочный тариф
+        const consumption = parseFloat(document.getElementById('power-supply-consumption-input')?.value) || 0;
+        currentConsumption = consumption;
+        baseConsumption = consumption;
+        calculation = `${currentTariff} × ${consumption} = ${(currentTariff * consumption).toFixed(2)}`;
+        
+        tariffDisplay = currentTariff?.toFixed(2) || '0';
+        consumptionDisplay = consumption.toFixed(2);
+      }
+    } else {
+      // По нормативу - только одноставочный
+      const standard = getStandard('powerSupply', supplierId);
+      if (standard) {
+        currentConsumption = standard * residents;
+        baseConsumption = standard * residents;
+        calculation = `${standard} × ${residents} × ${currentTariff} = ${(standard * residents * currentTariff).toFixed(2)}`;
+        
+        tariffDisplay = currentTariff?.toFixed(2) || '0';
+        consumptionDisplay = currentConsumption.toFixed(2);
+      }
+    }
+    
+    return {
+      tariff: tariffDisplay || '0',
+      consumption: consumptionDisplay || '0',
+      calculation: calculation || '0',
+      currentPayment: (currentTariff * currentConsumption).toFixed(2),
+      basePayment: (baseTariff * baseConsumption).toFixed(2)
+    };
+  }
+
+  // Расчет ТКО
+  function calculateMunicipalWaste() {
+    const supplierId = document.getElementById('municipal-waste-tariff')?.value;
+    const currentTariff = getTariff('municipalWaste', currentPeriodDate, supplierId);
+    const baseTariff = getTariff('municipalWaste', basePeriodDate, supplierId);
+    const standard = getStandard('municipalWaste', supplierId);
+    
+    let currentConsumption = 0;
+    let baseConsumption = 0;
+    let calculation = '';
+    
+    if (standard) {
+      currentConsumption = standard * residents;
+      baseConsumption = standard * residents;
+      calculation = `${standard} × ${residents} × ${currentTariff} = ${(standard * residents * currentTariff).toFixed(2)}`;
+    }
+    
+    return {
+      tariff: currentTariff?.toFixed(2) || '0',
+      consumption: currentConsumption.toFixed(2),
+      calculation: calculation || '0',
+      currentPayment: (currentTariff * currentConsumption).toFixed(2),
+      basePayment: (baseTariff * baseConsumption).toFixed(2)
+    };
+  }
+
+  // Выполняем все расчеты
+  const results = {
+    coldWater: calculateColdWater(),
+    waterDisposal: calculateWaterDisposal(),
+    hotWater: calculateHotWater(),
+    heating: calculateHeating(),
+    powerSupply: calculatePowerSupply(),
+    municipalWaste: calculateMunicipalWaste()
+  };
+
+  // Обновляем таблицу результатов
+  updateResultsTable(results);
+  
+  // Рассчитываем итоги
+  calculateTotals(results);
+}
+
+// Функция для обновления таблицы результатов
+function updateResultsTable(results) {
+  // Холодная вода
+  updateTableRow('cold-water', results.coldWater);
+  
+  // Водоотведение
+  updateTableRow('water-disposal', results.waterDisposal);
+  
+  // Горячая вода
+  updateTableRow('hot-water', results.hotWater);
+  
+  // Отопление
+  updateTableRow('heating', results.heating);
+  
+  // Электроснабжение
+  updateTableRow('power-supply', results.powerSupply);
+  
+  // ТКО
+  updateTableRow('municipal-waste', results.municipalWaste);
+}
+
+// Функция для обновления строки таблицы
+function updateTableRow(serviceType, result) {
+  const row = document.querySelector(`tr[data-service="${serviceType}"]`);
+  if (!row) return;
+  
+  const cells = row.querySelectorAll('td');
+  if (cells.length >= 6) {
+    cells[1].textContent = result.tariff;
+    cells[2].textContent = result.consumption;
+    cells[3].textContent = result.calculation;
+    cells[4].textContent = result.currentPayment;
+    cells[5].textContent = result.basePayment;
+  }
+}
+
+// Функция для расчета итогов
+function calculateTotals(results) {
+  let totalCurrent = 0;
+  let totalBase = 0;
+  
+  Object.values(results).forEach(result => {
+    totalCurrent += parseFloat(result.currentPayment) || 0;
+    totalBase += parseFloat(result.basePayment) || 0;
+  });
+  
+  // Обновляем строку "Итого"
+  const totalRow = document.querySelector('.results-table__row--total');
+  if (totalRow) {
+    const cells = totalRow.querySelectorAll('td');
+    if (cells.length >= 6) {
+      cells[4].textContent = totalCurrent.toFixed(2);
+      cells[5].textContent = totalBase.toFixed(2);
+    }
+  }
+  
+  // Рассчитываем индекс роста
+  let growthIndex = 0;
+  if (totalBase > 0) {
+    growthIndex = ((totalCurrent - totalBase) / totalBase) * 100;
+  }
+  
+  // Обновляем строку "Индекс роста"
+  const growthRow = findTableRowByText('Индекс роста');
+  if (growthRow) {
+    const cells = growthRow.querySelectorAll('td');
+    if (cells.length >= 6) {
+      cells[5].textContent = `${growthIndex.toFixed(2)}%`;
+    }
+  }
+  
+  // Предельный индекс (можно настроить по вашим требованиям)
+  const limitIndex = 6.0; // Пример значения
+  
+  // Обновляем строку "Предельный индекс"
+  const limitRow = findTableRowByText('Предельный индекс');
+  if (limitRow) {
+    const cells = limitRow.querySelectorAll('td');
+    if (cells.length >= 6) {
+      cells[5].textContent = `${limitIndex.toFixed(2)}%`;
+    }
+  }
+  
+  // Превышение
+  const excess = growthIndex - limitIndex;
+  const excessRow = findTableRowByText('Превышение');
+  if (excessRow) {
+    const cells = excessRow.querySelectorAll('td');
+    if (cells.length >= 6) {
+      if (excess > 0) {
+        cells[5].textContent = `${excess.toFixed(2)}%`;
+        cells[5].style.color = 'red';
+      } else {
+        cells[5].textContent = '0.00%';
+        cells[5].style.color = 'inherit';
+      }
+    }
+  }
+}
+
+// Добавляем обработчик для кнопки "Рассчитать"
+document.addEventListener('DOMContentLoaded', () => {
+  const calculateBtn = document.querySelector('.btn--calculate');
+  if (calculateBtn) {
+    calculateBtn.addEventListener('click', calculateServices);
+  }
+  
+  // Добавляем data-атрибуты к строкам таблицы для удобства поиска
+  const tableRows = document.querySelectorAll('.results-table__row');
+  tableRows.forEach((row, index) => {
+    const serviceNames = ['cold-water', 'water-disposal', 'hot-water', 'heating', 'power-supply', 'municipal-waste'];
+    if (serviceNames[index]) {
+      row.setAttribute('data-service', serviceNames[index]);
+    }
+  });
 });
