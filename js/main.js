@@ -89,6 +89,11 @@ const powerSupplySelect = document.getElementById('power-supply-consumption-sele
 const tariffTypeGroup = document.getElementById('tariff-type-group');
 const powerSupplyConsumptionLabel = document.getElementById('power-supply-consumption-label');
 const powerSupplyConsumptionSelectLabel = document.getElementById('power-supply-consumption-select-label');
+const powerSupplyDayInput = document.getElementById('power-supply-consumption-day');
+const powerSupplyNightInput = document.getElementById('power-supply-consumption-night');
+const powerSupplyDayLabel = document.getElementById('power-supply-consumption-day-label');
+const powerSupplyNightLabel = document.getElementById('power-supply-consumption-night-label');
+const tariffTypeRadios = document.querySelectorAll('input[name="tariff-type"]');
 
 // Функция для обновления электроснабжения
 function updatePowerSupply() {
@@ -96,26 +101,48 @@ function updatePowerSupply() {
   const isMetering = selectedMethod && selectedMethod.value === 'input';
   const singleTariffRadio = document.getElementById('single-tariff');
   const multiZoneRadio = document.getElementById('multi-zone');
+  const selectedTariffType = document.querySelector('input[name="tariff-type"]:checked');
+  const isMultiZone = selectedTariffType && selectedTariffType.value === '2-zone';
   
   if (!tariffTypeGroup || !powerSupplyInput || !powerSupplySelect || 
       !powerSupplyConsumptionLabel || !powerSupplyConsumptionSelectLabel ||
-      !singleTariffRadio || !multiZoneRadio) {
+      !singleTariffRadio || !multiZoneRadio ||
+      !powerSupplyDayInput || !powerSupplyNightInput ||
+      !powerSupplyDayLabel || !powerSupplyNightLabel) {
     return;
   }
   
   if (isMetering) {
-    // Если активен "Прибор учета" - доступны оба типа тарифов, показываем input
+    // Если активен "Прибор учета" - доступны оба типа тарифов
     tariffTypeGroup.style.display = 'block';
-    powerSupplyInput.style.display = 'block';
-    powerSupplyConsumptionLabel.style.display = 'block';
     powerSupplySelect.style.display = 'none';
     powerSupplyConsumptionSelectLabel.style.display = 'none';
-    
+
     // Активируем оба типа тарифов
     singleTariffRadio.disabled = false;
     multiZoneRadio.disabled = false;
     singleTariffRadio.parentElement.classList.remove('disabled');
     multiZoneRadio.parentElement.classList.remove('disabled');
+
+    if (isMultiZone) {
+      // 2-х зонная тарификация: показываем два поля (день/ночь)
+      powerSupplyInput.style.display = 'none';
+      powerSupplyConsumptionLabel.style.display = 'none';
+
+      powerSupplyDayInput.style.display = 'block';
+      powerSupplyNightInput.style.display = 'block';
+      powerSupplyDayLabel.style.display = 'block';
+      powerSupplyNightLabel.style.display = 'block';
+    } else {
+      // Одноставочный: показываем одно поле расхода
+      powerSupplyInput.style.display = 'block';
+      powerSupplyConsumptionLabel.style.display = 'block';
+
+      powerSupplyDayInput.style.display = 'none';
+      powerSupplyNightInput.style.display = 'none';
+      powerSupplyDayLabel.style.display = 'none';
+      powerSupplyNightLabel.style.display = 'none';
+    }
   } else {
     // Если активен "Норматив" - доступен только одноставочный тариф, показываем select
     tariffTypeGroup.style.display = 'block';
@@ -123,6 +150,12 @@ function updatePowerSupply() {
     powerSupplyConsumptionLabel.style.display = 'none';
     powerSupplySelect.style.display = 'block';
     powerSupplyConsumptionSelectLabel.style.display = 'block';
+
+    // Прячем дневной/ночной расход
+    powerSupplyDayInput.style.display = 'none';
+    powerSupplyNightInput.style.display = 'none';
+    powerSupplyDayLabel.style.display = 'none';
+    powerSupplyNightLabel.style.display = 'none';
     
     // Деактивируем 2-х зонную тарификацию
     singleTariffRadio.disabled = false;
@@ -137,6 +170,10 @@ function updatePowerSupply() {
 
 // Обработчики для электроснабжения
 powerSupplyRadios.forEach(radio => {
+  radio.addEventListener('change', updatePowerSupply);
+});
+
+tariffTypeRadios.forEach(radio => {
   radio.addEventListener('change', updatePowerSupply);
 });
 
