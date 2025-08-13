@@ -250,14 +250,16 @@ p {
 
 /* Form Controls */
 .form-control {
+  width: 100%;
   padding: var(--spacing-sm) var(--spacing-md);
   font-size: var(--font-size-base);
+  line-height: 1.5;
+  color: var(--color-text);
+  background-color: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--border-radius-md);
-  background-color: var(--color-surface);
-  color: var(--color-text);
   transition: var(--transition);
-  min-height: 44px;
+  font-family: inherit;
 }
 
 .form-control:focus {
@@ -270,6 +272,18 @@ p {
   background-color: var(--color-background);
   color: var(--color-disabled);
   cursor: not-allowed;
+}
+
+.form-control--info {
+  background-color: var(--color-background);
+  border-color: var(--color-border);
+  color: var(--color-text);
+  cursor: default;
+  font-weight: 500;
+  padding: var(--spacing-sm) var(--spacing-md);
+  min-height: 42px;
+  display: flex;
+  align-items: center;
 }
 
 .form-control::placeholder {

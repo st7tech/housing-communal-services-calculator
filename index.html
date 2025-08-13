@@ -224,21 +224,15 @@
                     class="form-group__label"
                     for="cold-water-consumption-select"
                     style="display: none"
-                    >Выберите вид благоустройства</label
+                    >Норматив</label
                   >
-                  <select
-                    class="form-control"
-                    name="tariff"
+                  <div
+                    class="form-control form-control--info"
                     id="cold-water-consumption-select"
                     style="display: none"
                   >
-                    <option value="" selected disabled>
-                      Выберите из списка
-                    </option>
-                    <option value="standart">
-                      43.26 - ООО "Водоканал ЮЖНЫЙ"
-                    </option>
-                  </select>
+                    <span id="cold-water-standard-value">-</span>
+                  </div>
                 </div>
                 <div class="tariff-info">
                   <p class="tariff-info__text">
@@ -400,21 +394,15 @@
                     class="form-group__label"
                     for="hot-water-consumption-select"
                     style="display: none"
-                    >Выберите вид благоустройства</label
+                    >Норматив</label
                   >
-                  <select
-                    class="form-control"
-                    name="tariff"
+                  <div
+                    class="form-control form-control--info"
                     id="hot-water-consumption-select"
                     style="display: none"
                   >
-                    <option value="" selected disabled>
-                      Выберите из списка
-                    </option>
-                    <option value="standart">
-                      43.26 - ООО "Водоканал ЮЖНЫЙ"
-                    </option>
-                  </select>
+                    <span id="hot-water-standard-value">-</span>
+                  </div>
                 </div>
                 <div class="tariff-info">
                   <p class="tariff-info__text">
@@ -494,21 +482,15 @@
                     class="form-group__label"
                     for="heating-consumption-select"
                     style="display: none"
-                    >Выберите вид благоустройства</label
+                    >Норматив</label
                   >
-                  <select
-                    class="form-control"
-                    name="tariff"
+                  <div
+                    class="form-control form-control--info"
                     id="heating-consumption-select"
                     style="display: none"
                   >
-                    <option value="" selected disabled>
-                      Выберите из списка
-                    </option>
-                    <option value="standart">
-                      43.26 - ООО "Водоканал ЮЖНЫЙ"
-                    </option>
-                  </select>
+                    <span id="heating-standard-value">-</span>
+                  </div>
                 </div>
                 <div class="tariff-info">
                   <p class="tariff-info__text">
@@ -656,21 +638,15 @@
                     for="power-supply-consumption-select"
                     id="power-supply-consumption-select-label"
                     style="display: none"
-                    >Выберите вид благоустройства</label
+                    >Норматив</label
                   >
-                  <select
-                    class="form-control"
-                    name="tariff"
+                  <div
+                    class="form-control form-control--info"
                     id="power-supply-consumption-select"
                     style="display: none"
                   >
-                    <option value="" selected disabled>
-                      Выберите из списка
-                    </option>
-                    <option value="standart">
-                      43.26 - ООО "Водоканал ЮЖНЫЙ"
-                    </option>
-                  </select>
+                    <span id="power-supply-standard-value">-</span>
+                  </div>
                 </div>
                 <div class="tariff-info">
                   <p class="tariff-info__text">
@@ -791,16 +767,6 @@
                 </tr>
                 <tr class="results-table__row">
                   <td class="results-table__cell results-table__cell--service">
-                    Газоснабжение
-                  </td>
-                  <td class="results-table__cell">-</td>
-                  <td class="results-table__cell">-</td>
-                  <td class="results-table__cell">-</td>
-                  <td class="results-table__cell">-</td>
-                  <td class="results-table__cell">-</td>
-                </tr>
-                <tr class="results-table__row">
-                  <td class="results-table__cell results-table__cell--service">
                     Обращение с ТКО
                   </td>
                   <td class="results-table__cell">-</td>
@@ -892,6 +858,7 @@
     </div>
 
     <!-- JavaScript файлы -->
+    <script src="./js/price.js"></script>
     <script src="./js/main.js"></script>
   </body>
 </html>
