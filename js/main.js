@@ -949,21 +949,66 @@ function calculateServices() {
         currentConsumption = dayConsumption + nightConsumption;
         baseConsumption = dayConsumption + nightConsumption;
         
-        const currentDayPayment = currentMultiTariffs.day * dayConsumption;
-        const currentNightPayment = currentMultiTariffs.night * nightConsumption;
-        const baseDayPayment = baseMultiTariffs.day * dayConsumption;
-        const baseNightPayment = baseMultiTariffs.night * nightConsumption;
+        let currentDayPayment, currentNightPayment, baseDayPayment, baseNightPayment;
         
-        calculation = `${currentMultiTariffs.day} × ${dayConsumption} + ${currentMultiTariffs.night} × ${nightConsumption} = ${(currentDayPayment + currentNightPayment).toFixed(2)}`;
+        // Проверяем, применяется ли специальная логика для периода 01.07.2025-30.06.2026
+        const isSpecialPeriod = (year === 2025 && month >= 7) || (year === 2026 && month <= 6);
+        
+        if (isSpecialPeriod) {
+          // Специальная логика для периода 01.07.2025-30.06.2026
+          const nightPercentage = (nightConsumption / currentConsumption) * 100;
+          
+          if (nightPercentage < 40) {
+            // Стандартный расчет
+            currentDayPayment = currentMultiTariffs.day * dayConsumption;
+            currentNightPayment = currentMultiTariffs.night * nightConsumption;
+            baseDayPayment = baseMultiTariffs.day * dayConsumption;
+            baseNightPayment = baseMultiTariffs.night * nightConsumption;
+            
+            calculation = `${currentMultiTariffs.day} × ${dayConsumption} + ${currentMultiTariffs.night} × ${nightConsumption} = ${(currentDayPayment + currentNightPayment).toFixed(2)}`;
+          } else {
+            // Ночная зона > 40% - применяем скидку 14.4% к ночному тарифу
+            currentDayPayment = currentMultiTariffs.day * dayConsumption;
+            currentNightPayment = (currentMultiTariffs.night * nightConsumption) * 0.856; // 100% - 14.4% = 85.6%
+            baseDayPayment = baseMultiTariffs.day * dayConsumption;
+            baseNightPayment = (baseMultiTariffs.night * nightConsumption) * 0.856;
+            
+            calculation = `${currentMultiTariffs.day} × ${dayConsumption} + (${currentMultiTariffs.night} × ${nightConsumption}) × 0.856 = ${(currentDayPayment + currentNightPayment).toFixed(2)}`;
+          }
+        } else {
+          // Стандартный расчет для других периодов
+          currentDayPayment = currentMultiTariffs.day * dayConsumption;
+          currentNightPayment = currentMultiTariffs.night * nightConsumption;
+          baseDayPayment = baseMultiTariffs.day * dayConsumption;
+          baseNightPayment = baseMultiTariffs.night * nightConsumption;
+          
+          calculation = `${currentMultiTariffs.day} × ${dayConsumption} + ${currentMultiTariffs.night} × ${nightConsumption} = ${(currentDayPayment + currentNightPayment).toFixed(2)}`;
+        }
         
         tariffDisplay = `${currentMultiTariffs.day} | ${currentMultiTariffs.night}`;
         consumptionDisplay = `${dayConsumption} | ${nightConsumption}`;
+        
+        // Обновляем расчетные значения
+        currentConsumption = currentDayPayment + currentNightPayment;
+        baseConsumption = baseDayPayment + baseNightPayment;
       } else {
         // Одноставочный тариф
         const consumption = parseFloat(document.getElementById('power-supply-consumption-input')?.value) || 0;
-        currentConsumption = consumption;
-        baseConsumption = consumption;
-        calculation = `${currentTariff} × ${consumption} = ${(currentTariff * consumption).toFixed(2)}`;
+        
+        // Проверяем, применяется ли специальная логика для периода 01.07.2025-30.06.2026
+        const isSpecialPeriod = (year === 2025 && month >= 7) || (year === 2026 && month <= 6);
+        
+        if (isSpecialPeriod) {
+          // Скидка 3.3% для одноставочного тарифа
+          currentConsumption = (currentTariff * consumption) * 0.967; // 100% - 3.3% = 96.7%
+          baseConsumption = (baseTariff * consumption) * 0.967;
+          calculation = `(${currentTariff} × ${consumption}) × 0.967 = ${currentConsumption.toFixed(2)}`;
+        } else {
+          // Стандартный расчет
+          currentConsumption = currentTariff * consumption;
+          baseConsumption = baseTariff * consumption;
+          calculation = `${currentTariff} × ${consumption} = ${currentConsumption.toFixed(2)}`;
+        }
         
         tariffDisplay = currentTariff?.toFixed(2) || '0';
         consumptionDisplay = consumption.toFixed(2);
@@ -972,9 +1017,22 @@ function calculateServices() {
       // По нормативу - только одноставочный
       const standard = getStandard('powerSupply', supplierId);
       if (standard) {
-        currentConsumption = standard * residents;
-        baseConsumption = standard * residents;
-        calculation = `${standard} × ${residents} × ${currentTariff} = ${(standard * residents * currentTariff).toFixed(2)}`;
+        const standardConsumption = standard * residents;
+        
+        // Проверяем, применяется ли специальная логика для периода 01.07.2025-30.06.2026
+        const isSpecialPeriod = (year === 2025 && month >= 7) || (year === 2026 && month <= 6);
+        
+        if (isSpecialPeriod) {
+          // Скидка 3.3% для одноставочного тарифа
+          currentConsumption = (currentTariff * standardConsumption) * 0.967;
+          baseConsumption = (baseTariff * standardConsumption) * 0.967;
+          calculation = `(${standard} × ${residents} × ${currentTariff}) × 0.967 = ${currentConsumption.toFixed(2)}`;
+        } else {
+          // Стандартный расчет
+          currentConsumption = standard * residents * currentTariff;
+          baseConsumption = standard * residents * baseTariff;
+          calculation = `${standard} × ${residents} × ${currentTariff} = ${currentConsumption.toFixed(2)}`;
+        }
         
         tariffDisplay = currentTariff?.toFixed(2) || '0';
         consumptionDisplay = currentConsumption.toFixed(2);
@@ -985,8 +1043,8 @@ function calculateServices() {
       tariff: tariffDisplay || '0',
       consumption: consumptionDisplay || '0',
       calculation: calculation || '0',
-      currentPayment: (currentTariff * currentConsumption).toFixed(2),
-      basePayment: (baseTariff * baseConsumption).toFixed(2)
+      currentPayment: currentConsumption.toFixed(2),
+      basePayment: baseConsumption.toFixed(2)
     };
   }
 
@@ -1127,7 +1185,7 @@ function calculateTotals(results) {
       if (cells.length >= 6) {
         cells[1].textContent = '-'; // Тариф не применим
         cells[2].textContent = '-'; // Объем потребления не применим
-        cells[3].textContent = 'Устанавливается ежегодно'; // Описание
+        cells[3].textContent = '-'; // Описание не нужно
         cells[4].textContent = '-'; // Плата в текущем периоде не применима
         cells[5].textContent = `${limitIndex.toFixed(2)}%`; // Значение для выбранного года
       }
@@ -1143,7 +1201,7 @@ function calculateTotals(results) {
       if (cells.length >= 6) {
         cells[1].textContent = '-'; // Тариф не применим
         cells[2].textContent = '-'; // Объем потребления не применим
-        cells[3].textContent = growthIndex > limitIndex ? 'Индекс роста > Предельного индекса' : 'Индекс роста ≤ Предельного индекса'; // Описание
+        cells[3].textContent = '-'; // Описание не нужно
         cells[4].textContent = '-'; // Плата в текущем периоде не применима
         if (growthIndex > limitIndex) {
           cells[5].textContent = 'Да';
